@@ -99,8 +99,9 @@ public:
 public:
 	Args(int argc, const char* const argv[], const std::string& prefix = "--", const std::string& assignStr = "=");
 	std::string cmdStr() const;
-
 	Item item(const std::string& name) const;
+	size_t count() const { return tokens.size(); }
+
 	template <typename T>
 	T item(const std::string& name, const T& defaultValue) const
 	{
