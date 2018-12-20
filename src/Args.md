@@ -103,7 +103,7 @@ int main(int argc, char* argv[])
 		double weight = args("weight");
 		std::string name = args("name");
 	}
-	catch (const Args::NoSuchArgException& e) // Is there was no parameter named 'weight' or 'name'
+	catch (const Args::NoSuchArgException& e) // If there was no parameter named 'weight' or 'name'
 	{
 		std::cerr << e.what() << std::endl;
 	}
@@ -125,7 +125,7 @@ int main(int argc, char* argv[])
 	{
 		args >> kind >> nLegs >> weight >> isMale;
 	}
-	catch (const Args::NoMoreArgException& e) // Comman-line parameters wre fewer than 4
+	catch (const Args::NoMoreArgException& e) // Command-line parameters were fewer than 4
 	{
 		std::cerr << e.what() << std::endl;
 	}
@@ -137,4 +137,8 @@ is thrown. Like `Args::NoSuchArgException` and `Args::NoMoreArgException`, `std:
 abstract standard class `std::exception` and can therefore be caught as such. The associated message can be obtained
 using the `what()` method in the exception.
 
+# Other features
 
+- The `count()` method of the `Args` object returns the number of (parameter, value) pairs in the command-line.
+- The `progName` string attribute of the `Args` object contains the name of the program called in the command-line.
+- The `cmdStr()` method of the `Args` object returns a normalized representation of the command-line.
