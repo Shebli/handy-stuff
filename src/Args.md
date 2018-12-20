@@ -13,8 +13,8 @@ int main(int argc, char* argv[])
 	/* ... */
 ```
 You can then get command-line parameter values either using order or names (for named parameters).
-Let us suppose your program is called `animal` and that it needs 4 parameters: `kind` of type `string`, `nLegs` of type
-`int`, `weight` of type `double` and `isMale` of type `bool`; suppose your command-line looks like this:
+Let us suppose your program is called `animal` and that it needs 4 parameters: **`kind`** of type `string`, **`nLegs`** of type
+`int`, **`weight`** of type `double` and **`isMale`** of type `bool`; suppose your command-line looks like this:
 
 ```
 animal dog 4 7.8 yes
@@ -34,7 +34,7 @@ int main(int argc, char* argv[])
 	args >> kind >> nLegs >> weight >> isMale;
 ```
 
-However, even if it takes a longer command-line, it is probably more convenient for clarity of both command-line and
+However, even if it calls for a longer command-line, it is probably more convenient for clarity of both command-line and
 code to use named parameters, in which case the command-line will look like:
 
 ```
@@ -51,7 +51,7 @@ or event a mixture of these syntaxes and in any order (and using `true` or `1` i
 animal  --nLegs 4 --kind=dog isMale=true --weight 7.8
 ```
 
-In you C++ code, you can the read-out of named parameters is more concise as it allows both the declaration and the
+In your C++ code, your read-out of named parameters is more concise as it allows both the declaration and the
 initialization of each variable in a single line:
 
 ```c++
@@ -65,7 +65,63 @@ int main(int argc, char* argv[])
 	bool isMale = args("isMale");
 
 ```
-It should be noted that even if you use named parameters in your command-line, you still can read them out by order
+**CAUTION**: Because of instrinsic limitations relating to the assignment operator in C++ `std::string`, compilation
+will fail when a string variable is first declared and initialized later; to avoid this, either a call with default
+value should be used (see further) or the object returned by `args("kind")` must be explicitly converted to
+`std::string`:
+
+```c++
+int main(int argc, char* argv[])
+{
+	Args args(argc, argv);
+	std::string kind;
+	/* . . . */
+
+	std::string kind = args("kind").convert<std::string>();
+	/* . . . */
+```
+
+
+It should be noted that even if you use named parameters in your command-line, you can still read them out by order
 (i.e. by using chained `>>` operator on your `Args` object).
+
+# Errors and default values
+
+- If you try to readout a named parameter that doesn't exist an `Args::NoSuchArgException` is thrown.
+The exception is not thrown if you define a default value for a named parameter:
+
+```c++
+std::string kind = args("kind", "dog");
+int nLegs = args("nLegs", 4);
+bool isMale = args("isMale", true);
+try
+{
+	double weight = args("weight", 8.0);
+	std::string name = args("name", "Fido");
+}
+catch (const Args::NoSuchArgException& e)
+{
+	std::cerr << e.what() << std::endl;
+}
+```
+
+- If you run out of parameters in a chained `>>` readout, an `Args::NoMoreArgException` is thrown.
+
+```c++
+try
+{
+	std::string kind = args("kind");
+	int nLegs = args("nLegs");
+}
+catch (const Args::NoMoreArgException& e)
+{
+	std::cerr << e.what() << std::endl;
+}
+```
+
+- If you try to readout a parameter that cannot be parsed considering the type of your variable, a `std::runtime_error`
+is thrown. Like `Args::NoSuchArgException` and `Args::NoMoreArgException`, `std::runtime_error` derives from
+abstract standard class `std::exception` and can therefore be caught as such. The associated message can be obtained
+using the `what()` method in the exception.
 
 

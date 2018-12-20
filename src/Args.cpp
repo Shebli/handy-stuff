@@ -142,4 +142,10 @@ void Args::store(std::pair<std::string, std::string>& tokenPair)
 	}
 }
 
+template <>
+std::string Args::Item::convert<std::string>() const
+{
+	return string_convert<const std::string&>(itToken->second);
+}
+
 } /* namespace handy */

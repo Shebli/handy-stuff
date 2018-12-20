@@ -1,5 +1,5 @@
 /**
- * @file string_convert.hpp
+ * @file handy::string_convert.hpp
  * @date Dec 13, 2018
  * @author anvar
  * @note
@@ -63,161 +63,21 @@ T string_convert(const std::string& valueStr)
 	}
 }
 
-template<>
-bool string_convert<bool>(const std::string& valueStr)
-{
-	using T = bool;
-	auto str = boost::algorithm::to_lower_copy(valueStr);
-	if (str == "true" or str == "yes" or str == "1" or str == "")
-		return true;
-	else if (str == "false" or str == "no" or str == "0")
-		return false;
-	throw make_string_convert_exception<T>(valueStr);
-}
-
-template<>
-int string_convert<int>(const std::string& valueStr)
-{
-	using T = int;
-	size_t consumed{0};
-	auto value = std::stoi(valueStr, &consumed, 0);
-	if (consumed != valueStr.size())
-	{
-		value = static_cast<T>(std::stold(valueStr, &consumed));
-		if (consumed != valueStr.size())
-			throw make_string_convert_exception<T>(valueStr);
-	}
-	return value;
-}
-
-template<>
-long string_convert<long>(const std::string& valueStr)
-{
-	using T = long;
-	size_t consumed{0};
-	auto value = std::stol(valueStr, &consumed, 0);
-	if (consumed != valueStr.size())
-	{
-		value = static_cast<T>(std::stold(valueStr, &consumed));
-		if (consumed != valueStr.size())
-			throw make_string_convert_exception<T>(valueStr);
-	}
-	return value;
-}
-
-template<>
-long long string_convert<long long>(const std::string& valueStr)
-{
-	using T = long long;
-	size_t consumed{0};
-	auto value = std::stoll(valueStr, &consumed, 0);
-	if (consumed != valueStr.size())
-	{
-		value = static_cast<T>(std::stold(valueStr, &consumed));
-		if (consumed != valueStr.size())
-			throw make_string_convert_exception<T>(valueStr);
-	}
-	return value;
-}
-
-template<>
-unsigned string_convert<unsigned>(const std::string& valueStr)
-{
-	using T = unsigned;
-	size_t consumed{0};
-	auto value = std::stoul(valueStr, &consumed, 0);
-	if (consumed != valueStr.size())
-	{
-		value = static_cast<T>(std::stold(valueStr, &consumed));
-		if (consumed != valueStr.size())
-			throw make_string_convert_exception<T>(valueStr);
-	}
-	return value;
-}
-
-template<>
-unsigned long string_convert<unsigned long>(const std::string& valueStr)
-{
-	using T = unsigned long;
-	size_t consumed{0};
-	auto value = std::stoul(valueStr, &consumed, 0);
-	if (consumed != valueStr.size())
-	{
-		value = static_cast<T>(std::stold(valueStr, &consumed));
-		if (consumed != valueStr.size())
-			throw make_string_convert_exception<T>(valueStr);
-	}
-	return value;
-}
-
-template<>
-unsigned long long string_convert<unsigned long long>(const std::string& valueStr)
-{
-	using T = unsigned long long;
-	size_t consumed{0};
-	auto value = std::stoull(valueStr, &consumed, 0);
-	if (consumed != valueStr.size())
-	{
-		value = static_cast<T>(std::stold(valueStr, &consumed));
-		if (consumed != valueStr.size())
-			throw make_string_convert_exception<T>(valueStr);
-	}
-	return value;
-}
-
-template<>
-float string_convert<float>(const std::string& valueStr)
-{
-	using T = float;
-	size_t consumed{0};
-	auto value = std::stof(valueStr, &consumed);
-	if (consumed != valueStr.size())
-	{
-		value = static_cast<T>(std::stold(valueStr, &consumed));
-		if (consumed != valueStr.size())
-			throw make_string_convert_exception<T>(valueStr);
-	}
-	return value;
-}
-
-template<>
-double string_convert<double>(const std::string& valueStr)
-{
-	using T = double;
-	size_t consumed{0};
-	auto value = std::stod(valueStr, &consumed);
-	if (consumed != valueStr.size())
-	{
-		value = static_cast<T>(std::stold(valueStr, &consumed));
-		if (consumed != valueStr.size())
-			throw make_string_convert_exception<T>(valueStr);
-	}
-	return value;
-}
-
-template<>
-long double string_convert<long double>(const std::string& valueStr)
-{
-	using T = long double;
-	size_t consumed{0};
-	auto value = std::stold(valueStr, &consumed);
-	if (consumed != valueStr.size())
-		throw make_string_convert_exception<T>(valueStr);
-
-	return value;
-}
-
-template<>
-const std::string& string_convert<const std::string&>(const std::string& valueStr)
-{
-	return valueStr;
-}
-
-template<>
-const char* string_convert<const char*>(const std::string& valueStr)
-{
-	return valueStr.c_str();
-}
+/*
+ * Declaration of template specializations
+ */
+template<> bool string_convert<bool>(const std::string& valueStr);
+template<> int string_convert<int>(const std::string& valueStr);
+template<> long string_convert<long>(const std::string& valueStr);
+template<> long long string_convert<long long>(const std::string& valueStr);
+template<> unsigned string_convert<unsigned>(const std::string& valueStr);
+template<> unsigned long string_convert<unsigned long>(const std::string& valueStr);
+template<> unsigned long long string_convert<unsigned long long>(const std::string& valueStr);
+template<> float string_convert<float>(const std::string& valueStr);
+template<> double string_convert<double>(const std::string& valueStr);
+template<> long double string_convert<long double>(const std::string& valueStr);
+template<> const std::string& string_convert<const std::string&>(const std::string& valueStr);
+template<> const char* string_convert<const char*>(const std::string& valueStr);
 
 } /* namespace handy */
 

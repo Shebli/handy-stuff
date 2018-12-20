@@ -62,6 +62,7 @@ public:
 		{
 			return string_convert<T>(itToken->second);
 		}
+
 		template <typename T>
 		operator T() const
 		{
@@ -120,8 +121,13 @@ public:
 		return item(name);
 	}
 
+	Item operator() (const char* name) const
+	{
+		return item(std::string(name));
+	}
+
 	template <typename T>
-	T operator() (const std::string& name, const T& defaultValue) const
+	inline T operator() (const std::string& name, const T& defaultValue) const
 	{
 		return item(name, defaultValue);
 	}
@@ -132,7 +138,7 @@ public:
 	}
 
 	template <typename T>
-	Item operator >> (T& variable)
+	inline Item operator >> (T& variable)
 	{
 		Item item(tokens);
 		return item >> variable;
@@ -151,11 +157,7 @@ private:
 };
 
 
-template <>
-std::string Args::Item::convert<std::string>() const
-{
-	return string_convert<const std::string&>(itToken->second);
-}
+template <> std::string Args::Item::convert<std::string>() const;
 
 class Args::NoMoreArgException : public std::exception
 {
