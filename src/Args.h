@@ -180,6 +180,13 @@ public:
 	const std::string message;
 };
 
+template <typename T>
+T& operator << (T& variable, const Args::Item& item)
+{
+	variable = item.convert<T>();
+	return variable;
+}
+
 } /* namespace handy */
 
 #endif /* handy_Args_h_INCLUDED */
