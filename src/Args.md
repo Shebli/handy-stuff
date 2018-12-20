@@ -12,9 +12,15 @@ int main(int argc, char* argv[])
 	Args args(argc, argv);
 	/* ... */
 ```
+
 You can then get command-line parameter values either using order or names (for named parameters).
+
 Let us suppose your program is called `animal` and that it needs 4 parameters: **`kind`** of type `string`, **`nLegs`** of type
-`int`, **`weight`** of type `double` and **`isMale`** of type `bool`; suppose your command-line looks like this:
+`int`, **`weight`** of type `double` and **`isMale`** of type `bool`.
+
+## Read-out by order
+
+Suppose your command-line looks like this:
 
 ```
 animal dog 4 7.8 yes
@@ -34,7 +40,9 @@ int main(int argc, char* argv[])
 	args >> kind >> nLegs >> weight >> isMale;
 ```
 
-However, even if it calls for a longer command-line, it is probably more convenient for clarity of both command-line and
+## Read-out by name
+
+Even if it calls for a longer command-line, it is probably more convenient for clarity of both command-line and
 code to use named parameters, in which case the command-line will look like:
 
 ```
@@ -66,7 +74,7 @@ int main(int argc, char* argv[])
 
 ```
 **CAUTION**: Because of instrinsic limitations relating to the assignment operator in C++ `std::string`, compilation
-will fail when a string variable is first declared and initialized later; to avoid this, either a call with default
+will fail when a string variable is first declared and initialized later. To avoid this, either a call with default
 value should be used (see further) or the item returned by the parentheses call on the `Args` object must be explicitly
 converted to `std::string`:
 
@@ -81,6 +89,19 @@ int main(int argc, char* argv[])
 	/* . . . */
 ```
 
+An alternative way is to use the left shift operator `<<` instead of the assignment operator; no explicit conversion is
+need in that case:
+
+```c++
+int main(int argc, char* argv[])
+{
+	Args args(argc, argv);
+	std::string kind; // declaration of string variable 'kind'
+	/* . . . */
+
+	kind << args("kind"); // parsing variable 'kind' value from command-line parameter
+	/* . . . */
+```
 
 It should be noted that even if you use named parameters in your command-line, you can still read them out by order
 (i.e. by using chained `>>` operator on your `Args` object).
