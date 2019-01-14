@@ -6,4 +6,4 @@ All source code is located in "src" folder and included in the "handy" namespace
 
 Presently, the handy software modules are:
 
-  - [Args](src/Args/Args.md)
+  - [Args](src/Args.md)
