@@ -5,4 +5,5 @@ The project gathers all the code that I write to help with the numerous little p
 All source code is located in "src" folder and included in the "handy" namespace to reduce risk of collision with others. There is no corresponding "handy" folder but any other sub-namespace of "handy" will correspond to a sub-folder of "src".
 
 Presently, the handy software modules are:
-	- [Args}(src/Args/Args.md)
+
+  - [Args](src/Args/Args.md)
