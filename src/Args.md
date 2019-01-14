@@ -161,5 +161,5 @@ using the `what()` method in the exception.
 # Other features
 
 - The `count()` method of the `Args` object returns the number of (parameter, value) pairs in the command-line.
-- The `progName` string attribute of the `Args` object contains the name of the program called in the command-line.
+- The `progName` const string attribute of the `Args` object contains the name of the program called in the command-line.
 - The `cmdStr()` method of the `Args` object returns a normalized representation of the command-line.
