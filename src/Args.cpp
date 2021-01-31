@@ -33,6 +33,7 @@
 #include "Args.h"
 #include <utility>
 #include <iostream>
+#include <stdexcept>
 
 namespace handy
 {
@@ -115,6 +116,14 @@ Args::Item Args::item(const std::string& name) const
 	throw NoSuchArgException(name);
 }
 
+Args::Item Args::item(size_t iArgItem) const
+{
+	if (iArgItem >= tokens.size())
+		throw NoMoreArgException();
+
+	return Item(tokens, tokens.begin() + iArgItem);
+}
+
 std::string Args::item(const std::string& name, const char* defaultValue) const
 {
 	try
@@ -122,6 +131,18 @@ std::string Args::item(const std::string& name, const char* defaultValue) const
 		return item(name).valueStr();
 	}
 	catch (const NoSuchArgException& e)
+	{
+		return std::string(defaultValue);
+	}
+}
+
+std::string Args::item(size_t iArgItem, const char* defaultValue) const
+{
+	try
+	{
+		return item(iArgItem).valueStr();
+	}
+	catch (const std::out_of_range& e)
 	{
 		return std::string(defaultValue);
 	}

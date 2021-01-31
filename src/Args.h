@@ -100,6 +100,7 @@ public:
 	Args(int argc, const char* const argv[], const std::string& prefix = "--", const std::string& assignStr = "=");
 	std::string cmdStr() const;
 	Item item(const std::string& name) const;
+	Item item(size_t iArgItem) const;
 	size_t count() const { return tokens.size(); }
 
 	template <typename T>
@@ -116,6 +117,7 @@ public:
 	}
 
 	std::string item(const std::string& name, const char* defaultValue) const;
+	std::string item(size_t iArgItem, const char* defaultValue) const;
 
 	Item operator() (const std::string& name) const
 	{
@@ -127,15 +129,36 @@ public:
 		return item(std::string(name));
 	}
 
+	Item operator[] (size_t iArgItem) const
+	{
+		return item(iArgItem);
+	}
+
+	Item operator() (size_t iArgItem) const
+	{
+		return item(iArgItem);
+	}
+
 	template <typename T>
 	inline T operator() (const std::string& name, const T& defaultValue) const
 	{
 		return item(name, defaultValue);
 	}
 
+	template <typename T>
+	inline T operator() (size_t iArgItem, const T& defaultValue) const
+	{
+		return item(iArgItem, defaultValue);
+	}
+
 	std::string operator() (const std::string& name, const char* defaultValue) const
 	{
 		return item(name, defaultValue);
+	}
+
+	std::string operator() (size_t iArgItem, const char* defaultValue) const
+	{
+		return item(iArgItem, defaultValue);
 	}
 
 	template <typename T>
@@ -144,6 +167,7 @@ public:
 		Item item(tokens);
 		return item >> variable;
 	}
+
 
 public:
 	const std::string progName;
